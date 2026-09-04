@@ -8,8 +8,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// تشغيل وتوفير ملفات الواجهة الأمامية مجاناً من نفس السيرفر
-app.use(express.static(path.join(__dirname, 'public')));
+// قراءة ملفات الواجهة (index.html, style.css, app.js) من المسار الرئيسي مباشرة
+app.use(express.static(__dirname));
 
 const orders = [];
 
@@ -49,7 +49,7 @@ app.get('/api/orders', (req, res) => {
 
 // توجيه أي مسار آخر إلى الواجهة الرئيسية
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {
