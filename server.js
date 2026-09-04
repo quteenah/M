@@ -1,22 +1,19 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// السماح بالطلبات واستقبال JSON
 app.use(cors());
 app.use(express.json());
 
-// مصفوفة مؤقتة لحفظ الطلبات (يمكن ربطها بقاعدة بيانات مستقبلاً)
+// تشغيل وتوفير ملفات الواجهة الأمامية مجاناً من نفس السيرفر
+app.use(express.static(path.join(__dirname, 'public')));
+
 const orders = [];
 
-// اختبار الخادم
-app.get('/', (req, res) => {
-  res.send('Ali Store API is running smoothly!');
-});
-
-// استقبال طلب جديد من الواجهة
+// API استقبال الطلبات
 app.post('/api/orders', (req, res) => {
   const { network, txid, contact, items, total } = req.body;
 
@@ -40,16 +37,21 @@ app.post('/api/orders', (req, res) => {
 
   res.status(201).json({
     success: true,
-    message: 'تم استقبال الطلب بنجاح',
+    message: 'تم تسجيل الطلب بنجاح',
     orderId: newOrder.id
   });
 });
 
-// جلب قائمة الطلبات
+// API عرض الطلبات
 app.get('/api/orders', (req, res) => {
   res.json({ success: true, orders });
 });
 
+// توجيه أي مسار آخر إلى الواجهة الرئيسية
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
