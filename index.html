@@ -3,34 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ALI STORE VIP | المتجر الفاخر</title>
+  <title>ALI STORE VIP | المتجر الإلكتروني الرسمي</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- شريط العروض العلوي -->
+  <div class="top-bar">⚡ خصم خاص 20% على خدمات التطوير وشحن الألعاب بأسعار تسليم فورية ⚡</div>
+
+  <!-- الهيدر -->
   <header>
-    <div class="logo">ALI STORE <span>VIP</span></div>
-    <button class="cart-btn" onclick="openCart()">🛒 السلة (<span id="cartCount">0</span>)</button>
+    <div class="brand">👑 ALI STORE <span>VIP</span></div>
+    <button class="cart-trigger" onclick="openCart()">🛒 السلة (<span id="cartCount">0</span>)</button>
   </header>
 
-  <section class="hero">
-    <h1>خدمات رقمية حصرية بمستوى VIP</h1>
-    <p>شحن ألعاب، تطوير مواقع، وبوتات ذكية بأسرع تنفيذ وأعلى أمان</p>
-  </section>
+  <!-- شريط الثقة -->
+  <div class="trust-bar">
+    <div class="trust-item">⚡ تسليم فوري للطلبات</div>
+    <div class="trust-item">🛡️ دفع آمن عبر USDT</div>
+    <div class="trust-item">💬 دعم فني مباشر</div>
+  </div>
 
-  <div class="controls">
-    <div class="search-box">
-      <input type="text" id="search" placeholder="🔍 ابحث عن الخدمة المطلوبة..." oninput="renderProducts()">
-    </div>
-    <div class="filters">
-      <button class="active" onclick="filterCat('all', this)">الكل</button>
-      <button onclick="filterCat('games', this)">🎮 شحن الألعاب</button>
-      <button onclick="filterCat('web', this)">🌐 المواقع</button>
-      <button onclick="filterCat('bot', this)">🤖 البوتات</button>
+  <!-- التصفح والبحث -->
+  <div class="store-nav">
+    <input type="text" class="search-input" id="search" placeholder="🔍 ابحث عن المنتجات والخدمات الرقمية..." oninput="renderProducts()">
+    <div class="cat-tabs">
+      <button class="cat-btn active" onclick="filterCat('all', this)">جميع المنتجات</button>
+      <button class="cat-btn" onclick="filterCat('games', this)">🎮 شحن الألعاب</button>
+      <button class="cat-btn" onclick="filterCat('web', this)">🌐 تطوير المواقع</button>
+      <button class="cat-btn" onclick="filterCat('bot', this)">🤖 البوتات والخدمات</button>
     </div>
   </div>
 
-  <main class="grid" id="products"></main>
+  <!-- شبكة المنتجات -->
+  <main class="products-grid" id="products"></main>
 
   <script src="app.js"></script>
 </body>
