@@ -106,50 +106,52 @@ function closeCheckout() {
   document.getElementById("checkoutModal").classList.remove("show");
 }
 
-function submitOrder() {
+async function submitOrder() {
   const tx = document.getElementById("txid").value.trim();
   const net = document.getElementById("network").value;
   const userContact = document.getElementById("userContact").value.trim();
-  
-  if (!userContact) return alert("يرجى إدخال رقم الواتساب أو حساب التلجرام للتواصل معاك.");
-  
+
+  if (!userContact) return alert("يرجى إدخال رقم التواصل.");
+  if (!tx) return alert("أدخل TXID بعد إتمام التحويل.");
+
   const itemDetails = [];
   for (let i = 0; i < cart.length; i++) {
     const val = document.getElementById(`cart_field_${i}`).value.trim();
-    if (!val) {
-      return alert(`يرجى إدخال البيانات المطلوبة لـ (${cart[i].name})`);
-    }
+    if (!val) return alert(`يرجى إدخال البيانات المطلوبة لـ (${cart[i].name})`);
     itemDetails.push({ service: cart[i].name, detail: val, price: cart[i].price });
   }
 
-  if (!tx) return alert("أدخل TXID بعد إتمام التحويل.");
-  
-  const orderNum = "ALI-" + Date.now().toString().slice(-8);
   const totalAmount = cart.reduce((s, p) => s + p.price, 0);
-  
-  document.getElementById("orderResult").innerHTML = `
-    <div class="success">
-      ✅ <b>تم تسجيل الطلب بنجاح!</b><br>
-      رقم الطلب: <b>${orderNum}</b><br>
-      الشبكة: <b>${net}</b><br>
-      المبلغ: <b>${totalAmount.toFixed(2)} USDT</b><br>
-      <hr style="border:0; border-top:1px solid #1b7652; margin:8px 0;">
-      سيتم مراجعة رقم المعاملة (TXID) والتواصل معك فور التأكيد.
-    </div>
-  `;
-  
-  localStorage.setItem("last_order", JSON.stringify({
-    order: orderNum,
-    network: net,
-    txid: tx,
-    contact: userContact,
-    items: itemDetails,
-    total: totalAmount,
-    date: new Date().toISOString()
-  }));
 
-  cart = [];
-  saveCart();
+  try {
+    const response = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        network: net,
+        txid: tx,
+        contact: userContact,
+        items: itemDetails,
+        total: totalAmount
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      document.getElementById("orderResult").innerHTML = `
+        <div class="success">
+          ✅ <b>تم إرسال الطلب بنجاح!</b><br>
+          رقم الطلب: <b>${data.orderId}</b>
+        </div>`;
+      cart = [];
+      saveCart();
+    } else {
+      alert("حدث خطأ: " + data.message);
+    }
+  } catch (err) {
+    alert("تعذر الاتصال بالخادم، يرجى المحاولة لاحقاً.");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
