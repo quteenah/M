@@ -1,118 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07111f">
-<title>ALI STORE VIP — متجر الخدمات الرقمية</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALI STORE VIP | المتجر الفاخر</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="top">
-  <div class="brand"><span>ALI</span> STORE <b>VIP</b></div>
-  <button class="cart-btn" onclick="openCart()">🛒 السلة <i id="cartCount">0</i></button>
-</header>
+  <header>
+    <div class="logo">ALI STORE <span>VIP</span></div>
+    <button class="cart-btn" onclick="openCart()">🛒 السلة (<span id="cartCount">0</span>)</button>
+  </header>
 
-<section class="hero">
-  <div class="hero-copy">
-    <span class="badge">متجر خدمات رقمية احترافي</span>
-    <h1>كل خدماتك الرقمية<br><em>في مكان واحد</em></h1>
-    <p>شحن ألعاب • إنشاء مواقع • بوتات واتساب • أدوات تحميل وسائط • رد تلقائي</p>
-    <div class="hero-actions">
-      <a href="#services" class="btn primary">استعرض الخدمات</a>
-      <button class="btn ghost" onclick="openCart()">عرض السلة</button>
+  <section class="hero">
+    <h1>خدمات رقمية حصرية بمستوى VIP</h1>
+    <p>شحن ألعاب، تطوير مواقع، وبوتات ذكية بأسرع تنفيذ وأعلى أمان</p>
+  </section>
+
+  <div class="controls">
+    <div class="search-box">
+      <input type="text" id="search" placeholder="🔍 ابحث عن الخدمة المطلوبة..." oninput="renderProducts()">
+    </div>
+    <div class="filters">
+      <button class="active" onclick="filterCat('all', this)">الكل</button>
+      <button onclick="filterCat('games', this)">🎮 شحن الألعاب</button>
+      <button onclick="filterCat('web', this)">🌐 المواقع</button>
+      <button onclick="filterCat('bot', this)">🤖 البوتات</button>
     </div>
   </div>
-  <div class="hero-card">
-    <div>⚡</div><div><strong>تنفيذ سريع</strong><br><small>اطلب خدمتك بسهولة ومتابعة فورية</small></div>
-    <div>₮</div><div><strong>USDT</strong><small>دفع آمن وسهل بالعملة الرقمية</small></div>
-  </div>
-</section>
 
-<main id="services">
-  <div class="section-head">
-    <div><span class="badge">الخدمات المتاحة</span><h2>اختر ما تحتاجه</h2></div>
-    <input id="search" placeholder="🔎 ابحث عن خدمة..." oninput="renderProducts()">
-  </div>
-  <div class="filters">
-    <button class="active" data-cat="all" onclick="filterCat('all',this)">الكل</button>
-    <button data-cat="games" onclick="filterCat('games',this)">🎮 شحن الألعاب</button>
-    <button data-cat="web" onclick="filterCat('web',this)">💻 المواقع</button>
-    <button data-cat="bot" onclick="filterCat('bot',this)">🤖 واتساب</button>
-    <button data-cat="media" onclick="filterCat('media',this)">📥 الوسائط</button>
-  </div>
-  <div id="products" class="grid"></div>
-</main>
+  <main class="grid" id="products"></main>
 
-<section class="steps">
- <h2>كيف تطلب؟</h2>
- <div class="step-grid">
-  <div><b>01</b><h3>اختر الخدمة</h3><p>حدد الخدمة والباقات المناسبة لك.</p></div>
-  <div><b>02</b><h3>أدخل البيانات</h3><p>أدخل ID أو تفاصيل الطلب المطلوبة.</p></div>
-  <div><b>03</b><h3>ادفع USDT</h3><p>حوّل المبلغ المطلوب وأدخل TXID المعاملة.</p></div>
-  <div><b>04</b><h3>استلام الطلب</h3><p>تتم متابعة تنفيذ طلبك وإشعارك فوراً.</p></div>
- </div>
-</section>
-
-<footer>
-  <strong>ALI STORE VIP</strong>
-  <span>جميع الحقوق محفوظة &copy; 2026</span>
-</footer>
-
-<!-- Cart Modal -->
-<div id="cartModal" class="modal">
- <div class="panel">
-  <button class="close" onclick="closeCart()">×</button>
-  <h2>🛒 سلة الطلب</h2>
-  <div id="cartItems"></div>
-  <div class="total">الإجمالي: <strong id="total">0.00 USDT</strong></div>
-  <button class="btn primary wide" onclick="checkout()">متابعة للدفع</button>
- </div>
-</div>
-
-<!-- Checkout Modal -->
-<div id="checkoutModal" class="modal">
- <div class="panel">
-  <button class="close" onclick="closeCheckout()">×</button>
-  <h2>💰 إتمام الطلب والدفع بـ USDT</h2>
-  
-  <div class="checkout-summary">
-    إجمالي المطلوب: <strong id="checkoutTotal">0.00 USDT</strong>
-  </div>
-
-  <div class="form-group">
-    <label>رقم التواصل (واتساب أو تلجرام):</label>
-    <input type="text" id="userContact" placeholder="مثال: +966500000000 أو @username">
-  </div>
-
-  <!-- Dynamic Fields Container -->
-  <div id="customerDetailsFields"></div>
-
-  <div class="form-group">
-    <label>اختر شبكة التحويل:</label>
-    <select id="network">
-      <option value="TRC20">Tron (TRC20)</option>
-      <option value="BEP20">BNB Smart Chain (BEP20)</option>
-      <option value="ERC20">Ethereum (ERC20)</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label>عنوان المحفظة للدفع:</label>
-    <div class="wallet">YOUR_USDT_WALLET_ADDRESS_HERE</div>
-  </div>
-
-  <div class="form-group">
-    <label>رقم المعاملة (TXID / Hash):</label>
-    <input id="txid" placeholder="ألصق رقم المعاملة بعد التحويل">
-  </div>
-
-  <button class="btn primary wide" onclick="submitOrder()">تأكيد وإرسال الطلب</button>
-  <div id="orderResult"></div>
- </div>
-</div>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
