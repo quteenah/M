@@ -1,15 +1,10 @@
 const express = require('express');
-const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-
-// قراءة ملفات الواجهة (index.html, style.css, app.js) من المسار الرئيسي مباشرة
-app.use(express.static(__dirname));
 
 const orders = [];
 
@@ -47,11 +42,4 @@ app.get('/api/orders', (req, res) => {
   res.json({ success: true, orders });
 });
 
-// توجيه أي مسار آخر إلى الواجهة الرئيسية
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app;
