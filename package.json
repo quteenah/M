@@ -1,7 +1,7 @@
 {
   "name": "ali-store-full",
   "version": "1.0.0",
-  "description": "Fullstack ALI STORE VIP for Render",
+  "description": "Fullstack ALI STORE VIP for Vercel",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
